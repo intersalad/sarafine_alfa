@@ -15,6 +15,7 @@ def help():
     print("Вывести список пользователей - /user_list")
     print("Вывести список категорий - /cat_list")
     print("Вывести список специалистов - /spec_list")
+    print("Вывести ничего - /nothing")
 
 
 def count_elements(my_dict):
