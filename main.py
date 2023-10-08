@@ -1,3 +1,5 @@
+import datetime
+
 import telebot
 from telebot import types
 import pandas as pd
@@ -230,6 +232,7 @@ def new_rec_3(message, spec_name, spec_id):
                 temp_d.append(spec_id)
                 rec_list[user_id] = temp_d
                 out = 'Рекомендация успешно добавлена!'
+                print('')
             else:
                 out = 'Вы уже рекомендовали этого специалиста'
 
@@ -248,7 +251,7 @@ def new_user(id, name, surname, username, v_link):
 
     if str(v_link)[:4] == 'http':
         print(str(v_link[:4]))
-        v_link = str(v_link)[8:]
+        v_link = str(v_link)[15:]
         print(v_link)
 
     access_token = '1f14b34d1f14b34d1f14b34d151c0751b111f141f14b34d7b4e42f7fbf098222890c6b7'
@@ -316,6 +319,7 @@ def spec_list(message):
             break
     de = types.ReplyKeyboardRemove()
     bot.send_message(message.from_user.id, out, reply_markup=de)
+    print(datetime.datetime, ' -> ', message.from_user.id, 'запросил специалистов в категории', str(i))
 
 
 @bot.message_handler(commands=['user_list'])
@@ -328,6 +332,7 @@ def show_users_list(message):
     for i in users_list:
         out += '@' + str(users_list[i][-1]) + '\n'
     bot.send_message(message.from_user.id, out)
+    print(datetime.datetime, ' -> ', message.from_user.id, ' запросил список пользователей')
 
 
 @bot.message_handler(commands=['new_cat'])
@@ -353,7 +358,7 @@ def url(message):
         users_list_json = my_file.read()
     users_list = json.loads(users_list_json)
     bot.send_message(message.from_user.id, 'Платформа Sarafine v1.0')
-    #bot.send_message(message.from_user.id, 'https://t.me/sarafine_alfa_bot/inter')
+    bot.send_message(message.from_user.id, 'https://t.me/sarafine_alfa_bot/inter')
     if str(message.from_user.id) not in users_list:
         bot.send_message(message.from_user.id, 'Для использования напишите ссылку на ваш профиль VK')
         bot.register_next_step_handler(message, vk_link)
