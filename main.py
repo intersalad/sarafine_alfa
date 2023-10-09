@@ -133,7 +133,7 @@ def new_spec(message):
     markup.add(types.KeyboardButton('Выйти'))
     msg = bot.send_message(user_id, 'Выберите категорию:', reply_markup=markup)
     bot.register_next_step_handler(msg, new_spec_2)
-
+    print('dvf')
 
 def new_spec_2(message):
     n_cat = message.text
