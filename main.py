@@ -9,16 +9,6 @@ import requests
 bot = telebot.TeleBot('6502285968:AAEFgcbUoxHYT8H7z-X-G2g72TellFRwQMo')
 
 
-def help():
-    print("Добавить новую категорию - /new_cat")
-    print("Добавить нового специалиста - /new_spec")
-    print("Добавить нового пользователя - /new_user")
-    print("Добавить новую рекомендацию - /new_rec")
-    print("Вывести список пользователей - /user_list")
-    print("Вывести список категорий - /cat_list")
-    print("Вывести список специалистов - /spec_list")
-
-
 def count_elements(my_dict):
     c = 0
     for v in my_dict.values():
@@ -42,7 +32,7 @@ def input_to_number(inp):
 
 
 def get_friends_list(user_id):
-    access_token = '1f14b34d1f14b34d1f14b34d151c0751b111f141f14b34d7b4e42f7fbf098222890c6b7'  # Здесь нужно заменить на свой access token VK API
+    access_token = '1f14b34d1f14b34d1f14b34d151c0751b111f141f14b34d7b4e42f7fbf098222890c6b7'
     api_version = '5.154'
     url = f'https://api.vk.com/method/friends.get?user_id={user_id}&access_token={access_token}&v={api_version}'
     try:
@@ -63,6 +53,7 @@ def get_vk_name(user_id):
     access_token = '1f14b34d1f14b34d1f14b34d151c0751b111f141f14b34d7b4e42f7fbf098222890c6b7'
     api_version = '5.154'
     url = f'https://api.vk.com/method/users.get?user_ids={user_id}&access_token={access_token}&lang=ru&name_case=gen&v={api_version}'
+    name = "Имя не найдено"
     try:
         response = requests.get(url)
         response.raise_for_status()
@@ -132,7 +123,6 @@ def new_spec(message):
     markup.add(types.KeyboardButton('Выйти'))
     msg = bot.send_message(user_id, 'Выберите категорию:', reply_markup=markup)
     bot.register_next_step_handler(msg, new_spec_2)
-    print('dvf')
 
 def new_spec_2(message):
     n_cat = message.text
@@ -373,6 +363,11 @@ def vk_link(message):
 def get_text_messages(message):
     search(message, message.from_user.id)
 
+
+with open("spec_list.json", "r") as my_file:
+    specs_list_json = my_file.read()
+specs_list = json.loads(specs_list_json)
+print(specs_list)
 
 bot.polling()
 
